@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="content">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="green">
+                    <i class="material-icons">assignment</i>
+                </div>
+                 {% comment %} <a href="{% url 'useraddpg' %}"> 
+                    <div style="float: right; width: 94px;height: 39px; text-align: center;padding: 3px;" id="ab" class="card-header card-header-icon" data-background-color="rose"><i class="fa fa-plus" aria-hidden="true"></i>Add
+                  </div></a> {% endcomment %}
+                  
+                <div class="card-content">
+                    <h4 class="card-title">Permission Config</h4>
+                    <div class="toolbar">
+                    </div>
+                    <div class="material-datatables">
+                        
+                        <div class="table-responsive">
+                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                            <thead>
+                                <form method="POST" action="{% url 'permission' %}">
+                                    {% csrf_token %}
+                                <tr>
+                                     {% comment %} <th class="text-left">Roles</th> {% endcomment %}
+                                     <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                         <label class="control-label"></label>
+                                         <select required class="selectpicker role_id" data-style="select-with-transition" title="Select Role" id="dropid" data-size="7" name="role_id" value="{{user_list.id}}" autocomplete="off">
+                                          <option value="" disabled="">Select Role</option>
+                                          {% for role in role_list %} 
+                                          <option value="{{role.id}}">{{role.name}}</option>
+                                          {% endfor %}
+                                        </select>     
+                                        </div>
+                                        {% comment %} <th>Image</th> {% endcomment %}
+                                        <th class="text-left">Authority</th>
+                                        <th class="text-center">All</th>
+                                        <th class="text-center">List</th>
+                                        <th class="text-center">Add</th>
+                                        <th class="text-center">Edit</th>
+                                        <th class="text-center">Delete</th>
+                                        {% comment %} <th class="text-right">Action</th> {% endcomment %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% comment %} conditions {% endcomment %}
+                                {% comment %} {% for i in historylisting %} {% endcomment %}
+                                
+                                <tr>
+                                    <tr>
+                                        <td>    
+                                                <i class="text-left"></i>User Authority<Roles> 
+                                                {% comment %} <input type="" value="Employee" name="Roles" > {% endcomment %}
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="uall" value="uall" id="select-all-user" {% if 'uall' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="ulist" value="ulist" id="checkboxu" {% if 'ulist' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="uadd" value="uadd" id="checkboxu" {% if 'uadd' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="uedit" value="uedit" id="checkboxu" {% if 'uedit' in permd %}checked{% else %}''{% endif %}> 
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="udelete" value="udelete" id="checkboxu" {% if 'udelete' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                    </tr>
+
+
+                                    <tr>
+
+                                            <td>    
+                                                <i class="text-left horizontal mb-5"></i>Role Authority <Roles> 
+                                                {% comment %} <input type="" value="Employee" name="Roles" > {% endcomment %}
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="rall" value="rall" id="select-all-roles" {% if 'rall' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="rlist" value="rlist" id="checkboxr" {% if 'rlist' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="radd" value="radd" id="checkboxr" {% if 'radd' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="redit" value="redit" id="checkboxr" {% if 'redit' in permd %}checked{% else %}''{% endif %}> 
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="rdelete" value="rdelete" id="checkboxr" {% if 'rdelete' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>    
+                                                <i class="text-left horizontal mb-5"></i>Site Credential Authority <Roles> 
+                                                {% comment %} <input type="" value="Employee" name="Roles" > {% endcomment %}
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="sall" value="sall" id="select-all-site" {% if 'sall' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="hidden" name="slist" value="slist" id="checkboxs" {% if 'slist' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="sadd" value="sadd" id="checkboxs" {% if 'sadd' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="sedit" value="sedit" id="checkboxs" {% if 'sedit' in permd %}checked{% else %}''{% endif %}> 
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="sdelete" value="sdelete" id="checkboxs" {% if 'sdelete' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>    
+                                                <i class="text-left horizontal mb-5"></i>Login History Authority <Roles> 
+                                                {% comment %} <input type="" value="Employee" name="Roles" > {% endcomment %}
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="hall" value="hall" id="select-all-hist"{% if 'hall' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="hlist" value="hlist" id="checkboxh" {% if 'hlist' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="hidden">
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="hidden">
+                                            </td>
+                                        <td class="text-center">
+                                                <input type="checkbox" class="chkbox" name="hdelete" value="hdelete" id="checkboxh" {% if 'hdelete' in permd %}checked{% else %}''{% endif %}>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="hidden" name="permission" id="chktext"> 
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="hidden" name="role_id" id="role_id"> 
+                                            </td>
+                                        </tr>
+                                        </td>
+                                        <button type="submit" id="but1" class="btn btn-rose pull-right">Check & Update Permission</button>
+                                        <div class="clearfix"></div>
+                                        </td>
+                                    </tr>
+                                {% comment %} @endforeach {% endcomment %}
+                                {% comment %} {% endfor %} {% endcomment %}
+                                
+                                <script>$(document).ready(function() {
+                                    var $checkboxh = $('.chkbox').hide();
+                                
+                                    $('#dropid').change(function() {         
+                                        var selectedValue = $(this).val();
+                                        
+                                        if(selectedValue) {
+                                            $checkboxh.show();
+                                        } else {
+                                            $checkboxh.hide();
+                                        }
+                                    });
+
+                                });
+                                    $(document).ready(function(){
+                                        $("#select-all-user").click(function(){
+                                            if(this.checked){
+                                                $('input[id=checkboxu]').each(function(){
+                                                    $('input[id=checkboxu]').prop('checked', true);
+                                                })
+                                            }else{
+                                                $('input[id=checkboxu]').each(function(){
+                                                    $('input[id=checkboxu]').prop('checked',false);
+                                                })
+                                            }
+                                        });
+                                    });
+
+                                    $(document).ready(function(){
+                                        $("#select-all-roles").click(function(){
+                                                if(this.checked){
+                                                    $('input[id=checkboxr]').each(function(){
+                                                        $('input[id=checkboxr]').prop('checked', true);
+                                                    })
+                                                }else{
+                                                    $('input[id=checkboxr]').each(function(){
+                                                        $('input[id=checkboxr]').prop('checked', false);
+                                                    })
+                                                }
+                                            });
+                                        });
+                                        $(document).ready(function(){
+                                            $("#select-all-site").click(function(){
+                                                    if(this.checked){
+                                                        $('input[id=checkboxs]').each(function(){
+                                                            $('input[id=checkboxs]').prop('checked', true);
+                                                        })
+                                                    }else{
+                                                        $('input[id=checkboxs]').each(function(){
+                                                            $('input[id=checkboxs]').prop('checked', false);
+                                                        })
+                                                    }
+                                                });
+                                            });
+                                            $(document).ready(function(){
+                                                $("#select-all-hist").click(function(){
+                                                        if(this.checked){
+                                                            $('input[id=checkboxh]').each(function(){
+                                                                $('input[id=checkboxh]').prop('checked', true);
+                                                            })
+                                                        }else{
+                                                            $('input[id=checkboxh]').each(function(){
+                                                                $('input[id=checkboxh]').prop('checked', false);
+                                                            })
+                                                        }
+                                                    });
+                                                });
+                                </script>
+
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function()
+    {
+        $('.chkbox',).click(function()
+        {
+            var text="";
+            $('.chkbox:checked').each(function()
+            {
+                text+=$(this).val()+' ';
+            });
+            text=text.substring(0,text.length-1);
+            $('#chktext').val(text);
+        });
+
+       
+
+        $('.role_id').change(function() {
+            var option = $(this).find('option:selected');
+            var value = option.val(); //returns the value of the selected option.
+             $('#role_id').val(value);
+        });
+     /*   $('.selectpicker').click(function()
+        {
+            var Rdata="";
+            $('.chkbox:checked').each(function()
+            {
+                Rdata+=$(this).val();
+            });
+            Rdata=Rdata.substring();
+            $('#rolesids').val(Rdata);
+
+        }); */
+        $('#but1').click(function()
+        {
+            alert('success');
+        });
+    });
+</script>
+                            </tbody>
+                        </form>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end content-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

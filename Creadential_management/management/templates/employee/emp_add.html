@@ -1,0 +1,209 @@
+{%  extends "base.html" %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+  .help-block strong{
+    color: red;
+  }
+</style>
+<html>
+  <body>
+<div class="content">
+  {% comment %} @if ($message = Session::get('success') || $message = Session::get('error'))
+  @include('layouts.error-sucess-messages')
+  @endif {% endcomment %}
+  <div class="container-fluid"> 
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="card"> 
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">perm_identity</i> 
+          </div>
+          <a href="{% url 'emp_list' %}"> 
+            <div style=" float: right; width: 94px;height: 39px; text-align: center;padding: 3px;" id="ab" class="card-header card-header-icon" data-background-color="rose"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Back
+          </div>
+          </a>
+          <div class="card-content">
+            <h4 class="card-title">Add User
+            </h4>
+            <br>
+            <form role="form" method="POST" action="{% url 'emp_add' %}" enctype="multipart/form-data">
+               {% csrf_token %}
+              <div class="row">  
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">First Name*</label>
+                    <input type="text" class="form-control txt_Space" name="first_name" value="{{first_name}}" autocomplete="off" required>
+                  </div>
+                  {% comment %} @if ($errors->has('first_name'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('first_name') }}</strong>
+                            </span>
+                  @endif {% endcomment %}
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Last Name*</label>
+                    <input type="text" class="form-control txt_Space" name="last_name" value="{{last_name}}" autocomplete="off" required>
+                  </div>
+                  {% comment %} @if ($errors->has('last_name'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('last_name') }}</strong>
+                            </span>
+                  @endif {% endcomment %}
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Email*</label>
+                    <input type="email" class="form-control emailOnly" name="email" value="{{email}}" autocomplete="off" required>
+                  </div>
+                  {% comment %} @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                  @endif {% endcomment %}
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Mobile Number*</label>
+                    <input type="number" class="form-control numbersOnly" name="mobile" value="{{mobile}}" autocomplete="off" required>
+                    <span id="con"></span>
+                  </div>
+                  {% comment %} @if ($errors->has('mobile'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('mobile') }}</strong>
+                            </span>
+                  @endif  {% endcomment %}
+                  </div>
+                 </div> 
+                 
+                <div class="col-md-6">
+                <div class="form-group label-floating">
+                 <label class="">Role Id*</label>
+                 <select class="selectpicker" data-style="select-with-transition" title="Select Role" data-size="10" name="role_id" id="emp_id" value="{{user_list.id}}" autocomplete="off" required>
+                  <option value="" disabled="">Select Role</option>
+                  {% for role in role_list %} 
+                  <option value="{{role.id}}">{{role.name}}</option>
+                  {% endfor %}
+                </select>
+                </div>
+                   {% comment %} @if ($errors->has('mobile'))
+                         <span class="help-block">
+                             <strong>{{ $errors->first('mobile') }}</strong>
+                         </span>
+                  @endif  {% endcomment %}
+                </div>
+                </div>
+                {% comment %} <div class="col-md-4">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <h4 class="card-title mt-4">Role</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group concert_dropdown">
+                      <select class="selectpicker" data-style="select-with-transition" title="Select Role" data-size="7" name="role_id" id="role_id" data-live-search="true" required="true" tabindex="-98"
+                        >
+                          <option value="" disabled="">Select Role</option>
+                          {% for role in role_list %}
+                          <option value="{{role.id}}">{{role.name}}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                  </div>
+                </div> {% endcomment %}
+
+                 <div class="col-md-12">
+                 <div class="form-group label-floating">
+                 <label class="control-label">Address*</label>
+                   <textarea class="form-control"  name="address" rows="2" cols="80" >{{address}} </textarea >
+                   {% comment %} @if ($errors->has('address'))
+                       <span class="help-block">
+                           <strong>{{ $errors->first('address') }}</strong>
+                       </span>
+                   @endif  {% endcomment %}
+                   </div>
+                 </div>
+              <div class="row">
+                  <div class="col-md-3 col-sm-4">
+                    <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                      <div class="fileinput-new thumbnail img-circle">
+                        {% if not user_detail.image %} 
+                        <img src="{% static 'img/placeholder.jpg' %}" alt="...">
+                        {% else %}
+                        <img src="{{MEDIA_URL}}{{user_detail.image.url}}" alt="...">
+                      {% endif %}
+                      </div>
+                      <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
+                      <div>
+                        <span class="btn btn-round btn-rose btn-file">
+                          <span class="fileinput-new">Add Profile Image</span>
+                          <span class="fileinput-exists">Change</span>
+                          <input type="file" name="image" />
+                        </span>
+                        <br />
+                        <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                      </div>
+                      {% comment %} @if ($errors->has('image'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('image') }}</strong>
+                            </span>
+                    @endif {% endcomment %}
+                    </div>
+                  </div> 
+              </div>                                     
+              <center><button type="submit" class="btn btn-rose center-block">Submit</button></center>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.ckeditor.com/4.11.2/standard/ckeditor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+
+  $(document).ready(function(){
+
+  jQuery('.numbersOnly').keyup(function () {
+    this.value = this.value.replace(/[^0-9]/g,'');
+    });
+
+  jQuery('.txt_Space').keyup(function () {
+    this.value = this.value.replace(/[^a-zA-Z ]/g,'');
+    });
+  
+ // jQuery('.alpha_numeric').keyup(function () {
+    //this.value = this.value.replace(/[^a-zA-Z0-9]/g,'');
+    //});
+    
+  jQuery('.emailOnly').keyup(function () { 
+    this.value = this.value.replace(/[^\w\.+@a-zA-Z_+?\.a-zA-Z\.]/g,'');
+    });
+    
+    $(".numbersOnly").keyup(function(){
+      var mobNum = $(this).val();
+ if(mobNum.length>10 || mobNum.length<10){
+     $('#con').html('Please enter 10 digit number');
+     $('#con').css('color', 'red');
+     return flase;
+ }else{
+     $('#con').html('Valid number');
+     $('#con').css('color', 'green');
+ }
+
+  });
+
+  });
+ </script>
+</body>
+</html>
+<script>
+  document.getElementById("emp-menu").classList.add("active");
+</script>
+{% endblock %}
+<script src="https://cdn.ckeditor.com/4.11.2/standard/ckeditor.js"></script>

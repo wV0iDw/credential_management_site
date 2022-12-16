@@ -1,0 +1,108 @@
+{%  extends "base.html" %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+  .help-block strong{
+    color: red;
+  }
+</style>
+<div class="content">
+  {% comment %} @if ($message = Session::get('success') || $message = Session::get('error'))
+  @include('layouts.error-sucess-messages')
+  @endif {% endcomment %}
+  <div class="container-fluid"> 
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="card"> 
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">perm_identity</i> 
+          </div>
+          <a href="{% url 'list' %}"> 
+            <div style=" float: right; width: 94px;height: 39px; text-align: center;padding: 3px;" id="ab" class="card-header card-header-icon" data-background-color="rose"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Back
+          </div>
+          </a>
+          <div class="card-content">
+            <h4 class="card-title">Edit Role
+            </h4>
+            <br>
+            <form role="form" method="POST" action="{% url 'update' %}" enctype="multipart/form-data">
+                <input type="hidden" name="role_id"  value="{{role_detail.id}}">
+                {% csrf_token %}
+              <div class="row">  
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Role Name</label>
+                    <input type="text" class="form-control" name="name" value="{{role_detail.name}}" autocomplete="off">
+                  </div>
+                </div>
+                {% comment %} <div class="col-md-6">
+                  <div class="form-group label-floating{{ $errors->has('email') ? ' has-error' : '' }}">
+                    <label class="control-label">Email*</label>
+                    <input type="email" class="form-control" name="email" value="{{ old('email') }}" autocomplete="off">
+                  </div>
+                  @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                  @endif
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group label-floating{{ $errors->has('mobile_no') ? ' has-error' : '' }}">
+                    <label class="control-label">Mobile Number*</label>
+                    <input type="number" class="form-control" name="mobile" value="{{ old('mobile') }}" autocomplete="off">
+                  </div>
+                  @if ($errors->has('mobile'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('mobile') }}</strong>
+                            </span>
+                  @endif 
+                </div>
+              </div>  
+            <div class="col-md-6">
+            <label class="control-label">Address*</label>
+              <textarea class="form-control "  name="address" rows="2" cols="80" >{{ old('address') }}</textarea>
+              @if ($errors->has('address'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('address') }}</strong>
+                  </span>
+              @endif 
+              </div> {% endcomment %}
+              {% comment %} <div class="row">
+                  <div class="col-md-3 col-sm-4">
+                    <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                      <div class="fileinput-new thumbnail img-circle">
+                        <img src="{% static 'img/placeholder.jpg' %}" alt="...">
+                      </div>
+                      <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
+                      <div>
+                        <span class="btn btn-round btn-rose btn-file">
+                          <span class="fileinput-new">Add Profile Image</span>
+                          <span class="fileinput-exists">Change</span>
+                          <input type="file" name="image" />
+                        </span>
+                        <br />
+                        <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                      </div> {% endcomment %}
+                      {% comment %} @if ($errors->has('image'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('image') }}</strong>
+                            </span>
+                    @endif {% endcomment %}
+                    </div>
+                  </div> 
+              </div>                                     
+              <center><button type="submit" class="btn btn-rose center-block">Submit</button></center>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById("role-menu").classList.add("active");
+</script>
+{% endblock %}
+<script src="https://cdn.ckeditor.com/4.11.2/standard/ckeditor.js"></script>

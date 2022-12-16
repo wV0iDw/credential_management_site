@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+    .my-modal{
+        width: 28%;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .my-modal{
+        width: 90%;
+    }
+    img{
+        height: 180px !important;
+        width: 260px !important;
+    }
+    
+
+}
+</style>
+<div class="content">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="rose">
+                    <div class="user-profile" style="width: 100px;">
+                        {% if not user_detail.image %}
+                        <img src="{% static 'img/placeholder.jpg' %}" alt="...">
+                        {% else %}
+                        <img  src="{{MEDIA_URL}}{{user_detail.image.url}}" />
+                        {% endif %}
+                    </div>
+                </div>
+                <a href="{% url 'emp_list' %}"> 
+                    <div style=" float: right; width: 94px;height: 39px; text-align: center;padding: 3px;" id="ab" class="card-header card-header-icon" data-background-color="rose"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        Back
+                    </div>
+                </a><br><br><br><br><br> 
+                
+                <div class="card-content">
+                    
+                    
+                    <ul class="nav nav-pills nav-pills-warning">
+                        <li class="active">
+                            <a href="#pill2" data-toggle="tab">Profile Info</a>
+                        </li>
+                    </ul>
+                    {% csrf_token %}
+                    {% comment %} <form role="form" method="GET" action="{% url'emp_view' %}" enctype="multipart/form-data" >
+                        <input type="hidden" name="emp_id" id="emp_id" value="{{user_detail.id}}"> {% endcomment %}
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="emp_id" name="user_detail.id">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 label-on-right">Full Name</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group label-floating is-empty">
+                                            <input type="text" class="form-control" value="{{ user_detail.first_name }} {{ user_detail.last_name }}" disabled="true">
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-4 label-on-right">Email id</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group label-floating is-empty">
+                                            <input type="email" class="form-control"  value="{{user_detail.email}}" disabled="true">
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-4 label-on-right">Mobile number</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group label-floating is-empty">
+                                            <input type="text" class="form-control" value="{{user_detail.mobile}}" disabled="true">
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-4 label-on-right">Role Name</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group label-floating is-empty">
+                                            <input type="text" class="form-control" value="{{user_detail.role_id}}"disabled="true">
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% comment %} @if($user->aboutme !='' )
+                                <div class="col-md-6">
+                                    <label class="col-md-4 label-on-right">About Me</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group label-floating is-empty">
+                                            <input type="text" class="form-control" value="{{$user->aboutme}}" disabled="true">
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif {% endcomment %}
+                                {% comment %} <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                     <label class="control-label">Role Id*</label>
+                                     <select class="selectpicker active" data-style="select-with-transition" title="Select Role" data-size="7" name="role_id" id="emp_id" value="{{user_detail.role_id}}" autocomplete="off">
+                                      <option value="" disabled="">Select Role</option>
+                                      {% for role in role_list %} 
+                                      <option value="{{role.id}}" {% if user_detail.role_id == role.id %} selected {% endif %}>{{role.name}}</option>
+                                      {% endfor %}
+                                    </select>
+                                    </div> {% endcomment %}
+                                
+                                <div class="col-md-6">
+                                    <label class="col-md-4 label-on-right">Address</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group label-floating is-empty">
+                                            <input type="text" class="form-control"  value="{{ user_detail.address }}" disabled="true">
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                 </tbody>
+                </table>
+            </div>
+        </div>   
+    </div>
+</div>
+
+
+</div>
+</div>
+<!--  end card  -->
+</div>
+<!-- end col-md-12 -->
+</div>
+<!-- end row -->
+</div>
+</div>
+<script>
+    document.getElementById("emp-menu").classList.add("active");
+</script>
+{% endblock %}

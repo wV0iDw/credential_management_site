@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="content">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="green">
+                    <i class="material-icons">assignment</i>
+                </div>
+                {% if 'radd' in permdict %}
+                 <a href="{% url 'add_role' %}"> 
+                    <div style="float: right; width: 94px;height: 39px; text-align: center;padding: 3px;" id="ab" class="card-header card-header-icon" data-background-color="rose"><i class="fa fa-plus" aria-hidden="true"></i>Add
+                  </div></a>
+                {% endif %}
+                <div class="card-content">
+                    <h4 class="card-title">Role List</h4>
+                    <div class="toolbar">
+                    </div>
+                    <div class="material-datatables">
+                        
+                        <div class="table-responsive">
+                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                            <thead>
+                                <tr>
+                                     <th class="text-center">S. No</th>
+                            
+                                        <th>Role Name</th>
+                                        <th style="text-align:center;">Status</th>
+                                        <th>Date</th>
+                                        <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for role in roledata %}
+                                {% comment %} conditions {% endcomment %}
+                                <tr>
+                                        <td class="text-center" style="height: 80px; width: 80px;">{{ forloop.counter }}</td>
+                                        {% comment %} <td> 
+                                         @if($row->image != '')
+                                        <img style="height: 80px; width: 80px;" src="#"  alt="user-image" class="img">
+                                         @else 
+                                        <img style="height: 80px; width: 80px;" src="{% static 'img/placeholder.jpg' %}"  alt="user-image" class="img">
+                                         @endif 
+                                       </td> {% endcomment %}
+                                       {% comment %} <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+                                      </div> {% endcomment %}
+                                        <td>{{ role.name }}</td>
+                                        <td class="align-middle text-center text-sm">
+                                          {% if role.status == 1 %}
+                                          <span class="badge badge-sm bg-gradient-success" >Active</span>
+                                          {% else %}
+                                          <span class="badge badge-sm bg-gradient-danger">Deactive</span>
+                                          {% endif %}
+                                        </td>
+                                        <td>{{ role.created_at }}</td>
+                                        <td class="td-actions text-right">
+                                        {% comment %} <a href="#">   
+                                            <button type="button" rel="tooltip" class="btn btn-rose btn-sm" data-original-title="View" title="">
+                                                <i class="material-icons">visibility</i>
+                                            <div class="ripple-container"></div></button>
+                                        </a>  {% endcomment %}
+                                        {% if 'redit' in permdict %}
+                                        <a href="{% url 'edit_role' role.id  %}"><button type="button" rel="tooltip" class="btn btn-success">
+                                            <i class="material-icons">edit</i>
+                                        </button></a> 
+                                        {% endif %}
+                                        {% if 'rdelete' in permdict %}
+                                        {% comment %} <a href="{% url 'delete_role' role.id  %}"><button
+                                            onclick="return confirmPopup('Are you sure you want to remove?','');" rel="tooltip"  class="btn btn-danger btn-sm"><i class="material-icons">delete</i>
+                                            </button></a>  {% endcomment %}
+                                        <a href="javascript:;"><button
+                                            onclick="DeleteRole('{{ role.id }}')" rel="tooltip"  class="btn btn-danger btn-sm"><i class="material-icons">delete</i>
+                                                </button></a> 
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %} 
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end content-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  
+  function DeleteRole(role_id) {
+    var role_id=role_id;
+          swal({
+                  title:"Do you want delete this item?",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: 'btn btn-success',
+                  cancelButtonClass: 'btn btn-danger',
+                  buttonsStyling: false,
+                  confirmButtonText: "Delete",
+                  cancelButtonText: "Cancel",
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+              }).then(function () {
+                      $.ajax({
+                          url : "{% url 'delete_role' %}",
+                          data : {
+                            'role_id' : role_id
+                          },
+                          method :"get",
+                          success: function(data){
+                            alert(data.msg);
+                          location.reload();
+                          if ($('#'+role_id).find('.checked').length){
+                              $('#'+role_id).children().prop('checked', false);
+                              
+                          } else {
+                                $('#'+role_id).children().prop('checked', true);
+                            }
+                      },
+                      error:function(er){
+                          console.log(er); 
+                      }
+                  });
+              });
+        }
+            
+        
+      
+</script>
+<script>
+    document.getElementById("role-menu").classList.add("active");
+  </script>
+{% endblock %}

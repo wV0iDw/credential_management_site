@@ -1,0 +1,141 @@
+{%  extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="content">
+  {% comment %} @include('layouts.error-sucess-messages') {% endcomment %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">perm_identity</i> 
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Edit Profile
+            </h4>
+            <form role="form" method="POST" action="{% url 'updateprofile' %}" enctype="multipart/form-data" >
+              
+               
+              <div class="row"> 
+               <input type="hidden" name="user_id" value="{{user_detail.id}}">
+                <div class="col-md-6">
+                  {%csrf_token%}
+                  <div class="form-group label-floating">
+                    <label class="control-label">First Name</label>
+                    
+                    <input type="text" class="form-control" name="first_name" value="{{user_detail.first_name}}" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" value="{{user_detail.last_name}}" autocomplete="off">
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Email address</label>
+                    <input type="email" name="email" value="{{user_detail.email}}" class="form-control">
+                    {% comment %} @if ($errors->has('email')) 
+                        <span class="help-block">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif  {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-md-6"> 
+                  <div class="form-group label-floating">
+                    <label class="control-label">Phone Number</label>
+                    <input type="text" name="phone_number" value="{{user_detail.mobile}}" class="form-control con-pass">
+                     {% comment %} <span class="errorpass pass2"></span> {% endcomment %}
+                    {% comment %} @if ($errors->has('re_password')) 
+                        <span class="help-block">
+                            <strong>{{ $errors->first('phone_number') }}</strong>
+                        </span>
+                    @endif {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Address</label>
+                    <input type="text" name="address" value="{{user_detail.address}}" class="form-control">
+                    {% comment %} @if ($errors->has('username')) 
+                        <span class="help-block">
+                            <strong>{{ $errors->first('address') }}</strong>
+                        </span>
+                    @endif  {% endcomment %}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+              <div class="col-md-3 col-sm-4">
+                <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                  <div class="fileinput-new thumbnail img-circle">
+                    
+                    <img src="{{user_detail.image.url}}" alt="...">
+                  </div>
+                  <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
+                  <div>
+                    <span class="btn btn-round btn-rose btn-file">
+                      <span class="fileinput-new">Add Photo</span>
+                      <span class="fileinput-exists">Change</span>
+                      <input type="file" name="image" />
+                    </span>
+                    <br />
+                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                  </div>
+                </div>
+              </div>
+                
+              </div>
+              <button type="submit" class="btn btn-rose pull-right">Update Profile</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-profile">
+          <div class="card-avatar">
+            <a href="#pablo"> 
+              <img class="img" src="{{user_detail.image.url}}" />
+            </a>
+          </div>
+          <div class="card-content">
+            <h6 class="category text-gray"></h6>
+            <h4 class="card-title">{{user_detail.email}}</h4>
+            <!-- <a href="#pablo" class="btn btn-rose btn-round">Follow</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+   function pasCheck(){
+      var pass  = $('.pass').val();
+      var cpass = $('.con-pass').val();
+
+      if(pass!="")
+        {
+          if(pass.length<6){
+            $('.pass1').html('<span style="color:red;">Password length must be greater then 5 characters</span>');
+            return false;
+          }else{
+            $('.pass1').html(' ');
+          }
+          if(pass.length>10){
+            $('.pass1').html('<span style="color:red;">Password length must be smaller then 10 characters</span>');
+            return false;
+          }
+        }
+      if(pass!=cpass){
+        $('.errorpass').html('<span style="color:red;">Password not match!</span>');
+        return false;
+      }
+ 
+  }
+</script>
+{% endblock %}
